@@ -1,0 +1,21 @@
+FROM node:20 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --legacy-peer-deps --loglevel=error
+COPY . .
+# final image
+FROM node:20-alpine
+# packages
+COPY --from=builder /app/package*.json ./
+#dependencies
+COPY --from=builder /app/node_modules ./node_modules  
+#all code 
+COPY  --from=builder /app ./ 
+
+# ENV DB_URL= 
+# ENV SECRET_KEY= 
+# ENV ORIGIN=
+#security for production workload
+EXPOSE 3001
+CMD ["node" , "index.js"]
+

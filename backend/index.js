@@ -17,7 +17,9 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 3001;
-const databaseURL = process.env.MONGO_URI;
+const databaseURL = String(process.env.DB_URL);
+const secretKey = String(process.env.SECRET_KEY);
+const origin = String(process.env.ORIGIN);
 
 app.use(
   cors({

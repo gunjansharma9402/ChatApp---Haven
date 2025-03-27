@@ -5,7 +5,7 @@ import { renameSync, unlinkSync } from "fs";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 const createToken = (email, userId) => {
-  return jwt.sign({ email, userId }, process.env.JWT_KEY, {
+  return jwt.sign({ email, userId }, process.env.SECRET_KEY, {
     expiresIn: maxAge,
   });
 };
@@ -60,7 +60,7 @@ export const login = async (req, res, next) => {
         return res.status(400).send("Invalid Password");
       }
 
-      console.log("JWT_KEY:", process.env.JWT_KEY);
+      console.log("SECRET_KEY:", process.env.SECRET_KEY);
       res.cookie("jwt", createToken(email, user.id), {
         maxAge,
         secure: true,
